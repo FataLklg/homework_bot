@@ -26,3 +26,18 @@ class ResponseKeyError(Exception):
 class ResponseStatusError(Exception):
     """Исключение при наличии недокументированного статуса в ответе API."""
     pass
+
+
+class SendMessageError(Exception):
+    """Исключение при наличии ошибки во время отправки сообщения."""
+    pass
+
+
+class ResponseJsonError(Exception):
+    """Исключение при наличии ошибки во время преобразования типа данных."""
+    pass
+
+
+class CurrentDateError(Exception):
+    """Исключение при отсутствии ключа current_date в словаре."""
+    pass
