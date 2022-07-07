@@ -22,7 +22,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 # Временной интервал запросов
-RETRY_TIME = 100
+RETRY_TIME = 600
 # URL для запроса статуса домашки
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 # Константа для аутентификации
