@@ -18,11 +18,6 @@ class HomeworksListError(Exception):
     pass
 
 
-class ResponseKeyError(Exception):
-    """Исключение при отстутствии запрашиваемых ключей в ответе API."""
-    pass
-
-
 class ResponseStatusError(Exception):
     """Исключение при наличии недокументированного статуса в ответе API."""
     pass

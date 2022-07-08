@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 
 from exceptions import (CurrentDateError, DictNoneError, EndpointError,
                         EndpointStatusError, HomeworksListError,
-                        ResponseJsonError, ResponseKeyError,
-                        ResponseStatusError, SendMessageError)
+                        ResponseJsonError, ResponseStatusError,
+                        SendMessageError)
 
 load_dotenv()
 
@@ -71,13 +71,8 @@ def get_api_answer(current_timestamp):
     response = requests.get(ENDPOINT, headers=HEADERS, params=params)
     if response.status_code != HTTPStatus.OK.value:
         raise EndpointStatusError(
-            'Сервер: %s - не отвечает.\n Headers: %s,\n params: %s,'
-            '\n HTTPStatus: %s.' % (
-                ENDPOINT,
-                HEADERS,
-                params,
-                response.status_code
-            )
+            f'Сервер: {ENDPOINT} - не отвечает.\n Headers: {HEADERS},'
+            f'\n params: {params},\n HTTPStatus: {response.status_code}.'
         )
     try:
         return response.json()
@@ -90,20 +85,20 @@ def check_response(response):
     logger.info('Проверка данных, полученных из ответа сервера.')
     if not isinstance(response, dict):
         raise TypeError('Тип данных не соответствует ожидаемому.')
-    if not isinstance(response.get('homeworks'), list):
+    homeworks = response.get('homeworks')
+    if not isinstance(homeworks, list):
         raise HomeworksListError('Получена домашка не в виде списка.')
     if not response:
         raise DictNoneError('Отсутствуют данные в словаре.')
     if not response.get('current_date'):
         raise CurrentDateError('В словаре отсутствует ключ: "current_date".')
-    homeworks = response.get('homeworks')
     return homeworks
 
 
 def parse_status(homework):
     """Парсинг имени домашки и статуса."""
-    if len(homework['homework_name']) == 0 or len(homework['status']) == 0:
-        raise ResponseKeyError('Отсутствуют запрашиваемые ключи в ответе API.')
+    if 'homework_name' not in homework or 'status' not in homework:
+        raise KeyError('Отсутствуют запрашиваемые ключи в ответе API.')
     homework_name = homework['homework_name']
     homework_status = homework['status']
     if homework_status not in HOMEWORK_STATUSES:
